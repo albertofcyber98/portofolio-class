@@ -16,13 +16,13 @@ function delete_tech($data)
   mysqli_query($conn, "DELETE FROM tbl_tech WHERE id=$id");
   return mysqli_affected_rows($conn);
 }
-function edit_tech_select($data)
+function edit_tech($data)
 {
   global $conn;
   $id = $data['id'];
-  $title = $data['title'];
-  mysqli_query($conn, "UPDATE tbl_tech_select SET
-  title='$title'
+  $id_tech = $data['id_tech'];
+  mysqli_query($conn, "UPDATE tbl_tech SET
+  id_tech_select='$id_tech'
   WHERE id=$id");
   return mysqli_affected_rows($conn);
 }

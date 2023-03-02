@@ -3,9 +3,12 @@ session_start();
 if (!isset($_SESSION['username'])) {
     header('Location: login.php');
 }
+$id_project = $_GET['id'];
+if ($id_project == NULL) {
+    header('Location: project.php');
+}
 require './functions/function_detail_project.php';
 $username = $_SESSION['username'];
-$id_project = $_GET['id'];
 $techs = query_data("SELECT tbl_tech_select.title as nama, tbl_tech.id as id FROM
 tbl_tech INNER JOIN tbl_tech_select
 ON tbl_tech_select.id=tbl_tech.id_tech_select
@@ -90,7 +93,7 @@ $resultNama = mysqli_fetch_assoc($cekNama);
                                                 if ($techs === []) {
                                                 ?>
                                                     <tr>
-                                                    <td colspan="3" class="text-center">No Data</td>
+                                                        <td colspan="3" class="text-center">No Data</td>
                                                     </tr>
                                                     <?php
                                                 } else {
@@ -101,7 +104,7 @@ $resultNama = mysqli_fetch_assoc($cekNama);
                                                             <td><?= $no ?></td>
                                                             <td><?= $tech['nama'] ?></td>
                                                             <td class="align-middle text-center">
-                                                                <button class="btn btn-sm btn-info mb-1" data-bs-toggle="modal" data-bs-target="#modalUbah">Ubah</button>
+                                                                <button class="btn btn-sm btn-info mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahTech<?= $tech['id'] ?>">Ubah</button>
                                                                 <button class="btn btn-sm btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusTech<?= $tech['id'] ?>">Hapus</button>
                                                             </td>
                                                             <!-- Start delete modal -->
@@ -135,8 +138,8 @@ $resultNama = mysqli_fetch_assoc($cekNama);
                                                             </div>
                                                             <!-- End delete modal -->
                                                             <!-- Start update modal -->
-                                                            <div class="modal fade" id="modalUbah<?= $project['id']; ?>" role="dialog">
-                                                                <div class="modal-dialog modal-lg">
+                                                            <div class="modal fade" id="modalUbahTech<?= $tech['id']; ?>" role="dialog">
+                                                                <div class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
                                                                             <h5 class="modal-title">Ubah Data</h5>
@@ -145,33 +148,37 @@ $resultNama = mysqli_fetch_assoc($cekNama);
                                                                         <div class="modal-body">
                                                                             <form role="form" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
                                                                                 <?php
-                                                                                $id = $project['id'];
-                                                                                $edits = query_data("SELECT * FROM tbl_project WHERE id='$id'");
+                                                                                $id = $tech['id'];
+                                                                                $edits = query_data("SELECT * FROM tbl_tech WHERE id='$id'");
                                                                                 foreach ($edits as $edit) :
                                                                                 ?>
                                                                                     <input type="hidden" class="form-control" name="id" value="<?= $edit['id'] ?>">
-                                                                                    <input type="hidden" class="form-control" name="image_lama" value="<?= $edit['image'] ?>">
                                                                                     <div class="form-group row mt-3">
-                                                                                        <label class="col-3 col-form-label">Title</label>
+                                                                                        <label class="col-3 col-form-label">Name Tech</label>
                                                                                         <div class="col">
-                                                                                            <input type="text" class="form-control" name="title" value="<?= $edit['title'] ?>" placeholder="Title">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="form-group row mt-3">
-                                                                                        <label class="col-3 col-form-label">Description</label>
-                                                                                        <div class="col">
-                                                                                            <textarea name="description" class="form-control" id="" cols="30" rows="3"><?= $edit['description'] ?></textarea>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="form-group row mt-3">
-                                                                                        <label class="col-3 col-form-label">Image</label>
-                                                                                        <div class="col">
-                                                                                            <input type="file" class="form-control" name="image">
+                                                                                            <select name="id_tech" id="" class="form-control">
+                                                                                                <?php
+                                                                                                $kondisiSelf = $edit['id_tech_select'];
+                                                                                                $techSelf = mysqli_query($conn, "SELECT*FROM tbl_tech_select WHERE id='$kondisiSelf'");
+                                                                                                $resulttechSelf = mysqli_fetch_assoc($techSelf);
+                                                                                                ?>
+                                                                                                <option value="<?= $resulttechSelf['id'] ?>"><?= $resulttechSelf['title'] ?></option>
+
+
+                                                                                                <?php
+                                                                                                $select_techs = query_data("SELECT*FROM tbl_tech_select WHERE id!='$kondisiSelf'");
+                                                                                                foreach ($select_techs as $select_tech) :
+                                                                                                ?>
+                                                                                                    <option value="<?= $select_tech['id'] ?>"><?= $select_tech['title'] ?></option>
+                                                                                                <?php
+                                                                                                endforeach;
+                                                                                                ?>
+                                                                                            </select>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="flex text-center mt-4 mb-3">
                                                                                         <button type="button" class="btn btn-secondary mr-2" data-bs-dismiss="modal">Batal</button>
-                                                                                        <button type="submit" name="ubah" class="btn btn-info text-white ml-2">Ubah</button>
+                                                                                        <button type="submit" name="ubah_tech" class="btn btn-info text-white ml-2">Ubah</button>
                                                                                     </div>
                                                                                 <?php
                                                                                 endforeach
@@ -486,8 +493,8 @@ $resultNama = mysqli_fetch_assoc($cekNama);
             ';
         }
     }
-    if (isset($_POST['ubah'])) {
-        if (edit_project($_POST) > 0) {
+    if (isset($_POST['ubah_tech'])) {
+        if (edit_tech($_POST) > 0) {
             echo '
                 <script type="text/javascript">
                     swal({
@@ -497,7 +504,7 @@ $resultNama = mysqli_fetch_assoc($cekNama);
                         showConfirmButton: true,
                     }).then(function(isConfirm){
                         if(isConfirm){
-                            window.location.replace("project.php");
+                            window.location.replace("detail_project.php?id=' . $id_project . '");
                         }
                     });
                 </script>
@@ -512,7 +519,7 @@ $resultNama = mysqli_fetch_assoc($cekNama);
                         showConfirmButton: true,
                     }).then(function(isConfirm){
                         if(isConfirm){
-                            window.location.replace("project.php");
+                            window.location.replace("detail_project.php?id=' . $id_project . '");
                         }
                     });
                 </script>
