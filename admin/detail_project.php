@@ -10,6 +10,9 @@ $techs = query_data("SELECT tbl_tech_select.title as nama, tbl_tech.id as id FRO
 tbl_tech INNER JOIN tbl_tech_select
 ON tbl_tech_select.id=tbl_tech.id_tech_select
 WHERE tbl_tech.id_project='$id_project'");
+
+$cekNama = mysqli_query($conn, "SELECT*FROM tbl_project WHERE id='$id_project'");
+$resultNama = mysqli_fetch_assoc($cekNama);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +59,7 @@ WHERE tbl_tech.id_project='$id_project'");
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Project :</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Project : <?= $resultNama['title'] ?></h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="project.php">Project</a></li>
@@ -84,98 +87,106 @@ WHERE tbl_tech.id_project='$id_project'");
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $no = 1;
-                                                foreach ($techs as $tech) :
+                                                if ($techs === []) {
                                                 ?>
                                                     <tr>
-                                                        <td><?= $no ?></td>
-                                                        <td><?= $tech['nama'] ?></td>
-                                                        <td class="align-middle text-center">
-                                                            <button class="btn btn-sm btn-info mb-1" data-bs-toggle="modal" data-bs-target="#modalUbah">Ubah</button>
-                                                            <button class="btn btn-sm btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusTech<?= $tech['id'] ?>">Hapus</button>
-                                                        </td>
-                                                        <!-- Start delete modal -->
-                                                        <div class="modal fade" id="modalHapusTech<?= $tech['id'] ?>" role="dialog">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">Hapus Data</h5>
-                                                                        <button type="button" data-bs-dismiss="modal" class="btn-close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <form role="form" action="" method="POST" autocomplete="off">
-                                                                            <?php
-                                                                            $id = $tech['id'];
-                                                                            $edits = query_data("SELECT * FROM tbl_tech WHERE id='$id'");
-                                                                            foreach ($edits as $edit) :
-                                                                            ?>
-                                                                                <input type="hidden" name="id" value="<?= $edit['id']; ?>">
-                                                                                <p>Yakin untuk menghapus data ?</p>
-                                                                                <div class="flex text-center mt-4 mb-3">
-                                                                                    <button type="button" class="btn btn-secondary mr-2" data-bs-dismiss="modal">Batal</button>
-                                                                                    <button type="submit" name="hapus_tech" class="btn btn-danger ml-2">Hapus</button>
-                                                                                </div>
-                                                                            <?php
-                                                                            endforeach
-                                                                            ?>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- End delete modal -->
-                                                        <!-- Start update modal -->
-                                                        <div class="modal fade" id="modalUbah<?= $project['id']; ?>" role="dialog">
-                                                            <div class="modal-dialog modal-lg">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">Ubah Data</h5>
-                                                                        <button type="button" data-bs-dismiss="modal" class="btn-close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <form role="form" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
-                                                                            <?php
-                                                                            $id = $project['id'];
-                                                                            $edits = query_data("SELECT * FROM tbl_project WHERE id='$id'");
-                                                                            foreach ($edits as $edit) :
-                                                                            ?>
-                                                                                <input type="hidden" class="form-control" name="id" value="<?= $edit['id'] ?>">
-                                                                                <input type="hidden" class="form-control" name="image_lama" value="<?= $edit['image'] ?>">
-                                                                                <div class="form-group row mt-3">
-                                                                                    <label class="col-3 col-form-label">Title</label>
-                                                                                    <div class="col">
-                                                                                        <input type="text" class="form-control" name="title" value="<?= $edit['title'] ?>" placeholder="Title">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row mt-3">
-                                                                                    <label class="col-3 col-form-label">Description</label>
-                                                                                    <div class="col">
-                                                                                        <textarea name="description" class="form-control" id="" cols="30" rows="3"><?= $edit['description'] ?></textarea>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row mt-3">
-                                                                                    <label class="col-3 col-form-label">Image</label>
-                                                                                    <div class="col">
-                                                                                        <input type="file" class="form-control" name="image">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="flex text-center mt-4 mb-3">
-                                                                                    <button type="button" class="btn btn-secondary mr-2" data-bs-dismiss="modal">Batal</button>
-                                                                                    <button type="submit" name="ubah" class="btn btn-info text-white ml-2">Ubah</button>
-                                                                                </div>
-                                                                            <?php
-                                                                            endforeach
-                                                                            ?>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- End update modal -->
+                                                    <td colspan="3" class="text-center">No Data</td>
                                                     </tr>
+                                                    <?php
+                                                } else {
+                                                    $no = 1;
+                                                    foreach ($techs as $tech) :
+                                                    ?>
+                                                        <tr>
+                                                            <td><?= $no ?></td>
+                                                            <td><?= $tech['nama'] ?></td>
+                                                            <td class="align-middle text-center">
+                                                                <button class="btn btn-sm btn-info mb-1" data-bs-toggle="modal" data-bs-target="#modalUbah">Ubah</button>
+                                                                <button class="btn btn-sm btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusTech<?= $tech['id'] ?>">Hapus</button>
+                                                            </td>
+                                                            <!-- Start delete modal -->
+                                                            <div class="modal fade" id="modalHapusTech<?= $tech['id'] ?>" role="dialog">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">Hapus Data</h5>
+                                                                            <button type="button" data-bs-dismiss="modal" class="btn-close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form role="form" action="" method="POST" autocomplete="off">
+                                                                                <?php
+                                                                                $id = $tech['id'];
+                                                                                $edits = query_data("SELECT * FROM tbl_tech WHERE id='$id'");
+                                                                                foreach ($edits as $edit) :
+                                                                                ?>
+                                                                                    <input type="hidden" name="id" value="<?= $edit['id']; ?>">
+                                                                                    <p>Yakin untuk menghapus data ?</p>
+                                                                                    <div class="flex text-center mt-4 mb-3">
+                                                                                        <button type="button" class="btn btn-secondary mr-2" data-bs-dismiss="modal">Batal</button>
+                                                                                        <button type="submit" name="hapus_tech" class="btn btn-danger ml-2">Hapus</button>
+                                                                                    </div>
+                                                                                <?php
+                                                                                endforeach
+                                                                                ?>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- End delete modal -->
+                                                            <!-- Start update modal -->
+                                                            <div class="modal fade" id="modalUbah<?= $project['id']; ?>" role="dialog">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">Ubah Data</h5>
+                                                                            <button type="button" data-bs-dismiss="modal" class="btn-close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form role="form" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
+                                                                                <?php
+                                                                                $id = $project['id'];
+                                                                                $edits = query_data("SELECT * FROM tbl_project WHERE id='$id'");
+                                                                                foreach ($edits as $edit) :
+                                                                                ?>
+                                                                                    <input type="hidden" class="form-control" name="id" value="<?= $edit['id'] ?>">
+                                                                                    <input type="hidden" class="form-control" name="image_lama" value="<?= $edit['image'] ?>">
+                                                                                    <div class="form-group row mt-3">
+                                                                                        <label class="col-3 col-form-label">Title</label>
+                                                                                        <div class="col">
+                                                                                            <input type="text" class="form-control" name="title" value="<?= $edit['title'] ?>" placeholder="Title">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row mt-3">
+                                                                                        <label class="col-3 col-form-label">Description</label>
+                                                                                        <div class="col">
+                                                                                            <textarea name="description" class="form-control" id="" cols="30" rows="3"><?= $edit['description'] ?></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row mt-3">
+                                                                                        <label class="col-3 col-form-label">Image</label>
+                                                                                        <div class="col">
+                                                                                            <input type="file" class="form-control" name="image">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="flex text-center mt-4 mb-3">
+                                                                                        <button type="button" class="btn btn-secondary mr-2" data-bs-dismiss="modal">Batal</button>
+                                                                                        <button type="submit" name="ubah" class="btn btn-info text-white ml-2">Ubah</button>
+                                                                                    </div>
+                                                                                <?php
+                                                                                endforeach
+                                                                                ?>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- End update modal -->
+                                                        </tr>
                                                 <?php
-                                                    $no++;
-                                                endforeach;
+                                                        $no++;
+                                                    endforeach;
+                                                }
                                                 ?>
                                             </tbody>
                                             <!-- Start modal -->
@@ -453,7 +464,7 @@ WHERE tbl_tech.id_project='$id_project'");
                         showConfirmButton: true,
                     }).then(function(isConfirm){
                         if(isConfirm){
-                            window.location.replace("detail_project.php?id='.$id_project.'");
+                            window.location.replace("detail_project.php?id=' . $id_project . '");
                         }
                     });
                 </script>
@@ -468,7 +479,7 @@ WHERE tbl_tech.id_project='$id_project'");
                         showConfirmButton: true,
                     }).then(function(isConfirm){
                         if(isConfirm){
-                            window.location.replace("detail_project.php?id='.$id_project.'");
+                            window.location.replace("detail_project.php?id=' . $id_project . '");
                         }
                     });
                 </script>
