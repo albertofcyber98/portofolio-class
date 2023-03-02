@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Ubuntu:wght@300;400;500&display=swap');
+
+body {
+  font-family: 'Roboto';
+  color: #2D2E37;
+}
+
+body .bg-color-custom {
+  background-color: #2D2E37;
+}
+
+.bg-color-custom .color-font-link a {
+  color: #fff;
+  font-weight: 300;
+}
+
+.bg-color-custom .color-font-link a:hover {
+  font-weight: 400;
+}
+
+header {
+  background-image: url('assets/images/background-header.png');
+  background-size: cover;
+  height: 715px;
+  background-position: center;
+}
+
+header h1 {
+  color: #fff;
+  font-family: 'Ubuntu';
+  font-size: 55px;
+  padding-top: 120px;
+  font-weight: 500;
+  text-align: center;
+}
+
+header h1 span {
+  color: #00BC9A;
+}
+
+header h2 {
+  font-weight: 300;
+  font-family: 'Ubuntu';
+  font-size: 32px;
+  color: #fff;
+  text-align: center;
+}
+
+header p {
+  color: #868686;
+  text-align: center;
+  margin-top: 34px;
+  font-size: 20px;
+}
+
+header .btn-hire a {
+  text-decoration: none;
+  background-color: #00BC9A;
+  color: #fff;
+  padding: 12px 40px 12px 40px;
+  transition: all 0.5s;
+}
+
+header .btn-hire a:hover {
+  text-decoration: none;
+  background-color: #04ab8d;
+  border-radius: 3px;
+}
+
+header .btn-view a {
+  text-decoration: none;
+  background-color: #32343E;
+  color: #fff;
+  padding: 12px 40px 12px 40px;
+  transition: all 0.5s;
+}
+
+header .btn-view a:hover {
+  text-decoration: none;
+  border-radius: 3px;
+  background-color: rgb(61, 62, 73);
+}
+
+header .qty-client-project {
+  color: #868686;
+}
+
+header .qty-client-project span {
+  margin-left: 10px;
+}
+
+/* css about */
+.about {
+  margin-top: 100px;
+  margin-bottom: 80px;
+}
+
+.about h2 {
+  font-family: 'Ubuntu';
+  font-size: 36px;
+  font-weight: 500;
+}
+
+/* skill */
+.skill {
+  background-color: rgba(0, 188, 154, 0.2);
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.skill h2 {
+  margin-bottom: 50px;
+  font-family: 'Ubuntu';
+  font-size: 36px;
+}
+.skill .component-skill{
+  margin-top: 5px;
+  width: 280px;
+}
+.skill .component-skill h4{
+  font-size: 20px;
+}
+.skill img{
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+.skill img:hover{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+/* projects */
+
+.projects{
+  margin-top: 80px;
+}
+.projects h1{
+  font-size: 36px;
+  font-weight: 500;
+  font-family: 'Ubuntu';
+  margin-bottom: 40px;
+}
+.projects .card-custom{
+  transition: all 0.3s;
+}
+.projects .card-custom:hover{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.projects .btn-see-more{
+  text-decoration: none;
+  color: #2D2E37;
+  border: 2px solid #2D2E37;
+  padding: 12px 32px;
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+.projects .btn-see-more:hover{
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid #2D2E37;
+  background-color: #2D2E37;
+}
+.projects .custom-text a{
+  text-decoration: none;
+  color: #2D2E37;
+  font-weight: 500;
+  font-size: 20px;
+}
+.projects .custom-text p{
+  color: #868686;
+  font-size: 14px;
+}
+/* Interested */
+.interested{
+  margin-top: 160px;
+  background-color: #2D2E37;
+  margin-bottom: 120px;
+}
+.interested h1{
+  color: #fff;
+}
+.interested .btn-view-project{
+  text-decoration: none;
+  color: #fff;
+  background-color: #32343E;
+  padding: 12px 32px;
+  transition: all 0.3s;
+}
+.interested .btn-view-project:hover{
+  text-decoration: none;
+  color: #fff;
+  background-color: #5b5d6a;
+  padding: 12px 32px;
+}
+.interested .btn-contact-me{
+  text-decoration: none;
+  color: #fff;
+  background-color: #00BC9A;
+  padding: 12px 32px;
+  transition: all 0.3s;
+}
+.interested .btn-contact-me:hover{
+  text-decoration: none;
+  color: #fff;
+  background-color: #04ab8d;
+  padding: 12px 32px;
+}
+/* footer */
+footer p{
+  color: #868686;
+}
+/* detail */
+.projects-detail{
+  margin-top: 80px;
+}
+.projects-detail h1 {
+  font-size: 36px;
+  font-weight: 500;
+  font-family: 'Ubuntu';
+  margin-bottom: 40px;
+}
+.projects-detail .breadcrumb-custom{
+font-size: 24px;
+}
+.projects-detail .breadcrumb-custom a{
+  text-decoration: none;
+  color: #2D2E37;
+}
+.projects-detail .breadcrumb-custom .garis{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.projects-detail .breadcrumb-custom .active-breadcrumb{
+color: #868686;
+}
+.projects-detail .card-custom {
+  transition: all 0.3s;
+}
+.projects-detail .card-custom:hover {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.projects-detail .card-custom .custom-text .title{
+  color: #2D2E37;
+  font-weight: 500;
+  font-size: 20px;
+}
+.projects-detail .card-custom .custom-text p{
+  color: #868686;
+  font-weight: 300;
+  font-size: 14;
+}
+.projects-detail .techAndTools h6{
+  font-size: 20px;
+  font-weight: 500;
+}
+.projects-detail .techAndTools .icon-custom{
+  padding-top: 3px;
+  padding-right: 10px;
+}
