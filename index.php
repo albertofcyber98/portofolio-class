@@ -1,7 +1,7 @@
 <?php
 require './admin/functions/global.php';
 $skills = query_data("SELECT*FROM tbl_skill");
-var_dump($skills);
+$projects = query_data("SELECT*FROM tbl_project");
 ?>
 
 <!DOCTYPE html>
@@ -113,36 +113,21 @@ var_dump($skills);
   <div class="projects container">
     <h1 class="text-center">Projects</h1>
     <div class="row justify-content-center">
-      <div class="mb-4 col-xl-4 col-lg-4 col-md-6 col-sm-8 col-10">
-        <div class="card card-custom">
-          <img src="./assets/images/project.jpg" class="card-img-top img-fluid">
-          <div class="card-body custom-text">
-            <a href="">Kotlix App</a>
-            <p class="card-text">Sebuah aplikasi pemesanan tiket bioskop.
-            </p>
+      <?php
+      foreach ($projects as $project) :
+      ?>
+        <div class="mb-4 col-xl-4 col-lg-4 col-md-6 col-sm-8 col-10">
+          <div class="card card-custom">
+            <img src="admin/img/<?=$project['image']?>" class="card-img-top img-fluid">
+            <div class="card-body custom-text">
+              <a href="detail.php?id=<?=$project['id']?>"><?=$project['title']?></a>
+              <p class="card-text"><?=$project['description']?></p>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="mb-4 col-xl-4 col-lg-4 col-md-6 col-sm-8 col-10">
-        <div class="card card-custom">
-          <img src="./assets/images/project.jpg" class="card-img-top img-fluid">
-          <div class="card-body custom-text">
-            <a href="">Kotlix App</a>
-            <p class="card-text">Sebuah aplikasi pemesanan tiket bioskop.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="mb-4 col-xl-4 col-lg-4 col-md-6 col-sm-8 col-10">
-        <div class="card card-custom">
-          <img src="./assets/images/project.jpg" class="card-img-top img-fluid">
-          <div class="card-body custom-text">
-            <a href="">Kotlix App</a>
-            <p class="card-text">Sebuah aplikasi pemesanan tiket bioskop.
-            </p>
-          </div>
-        </div>
-      </div>
+      <?php
+      endforeach;
+      ?>
     </div>
     <div class="text-center mt-4">
       <a href="" class="btn-see-more">See More</a>
